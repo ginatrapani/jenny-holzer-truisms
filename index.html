@@ -122,6 +122,7 @@
                 opacity: 100%;
                 margin: 5% 20%;
                 padding: 5%;
+                font-size: 1.5em;
             }
             .about h2 {
                 margin-top: 0;
@@ -440,7 +441,9 @@
                 return;
             }
             function isMobile() {
-                return window.matchMedia("(max-width: 768px)").matches;
+                return /Mobi|Android|iPhone|iPad|iPod/i.test(
+                    navigator.userAgent,
+                );
             }
         </script>
     </head>
