@@ -31,10 +31,13 @@
                 font-style: normal;
             }
             h1 {
-                font-size: 4em;
+                font-size: 3.5em;
                 text-align: right;
                 float: right;
                 margin: 0 0 -10 2;
+                @media only screen and (max-width: 768px) {
+                    font-size: 2em;
+                }
             }
             h1 a {
                 color: var(--truism-prim-color);
@@ -119,6 +122,9 @@
                 opacity: 100%;
                 margin: 5% 20%;
                 padding: 5%;
+            }
+            .about h2 {
+                margin-top: 0;
             }
         </style>
         <script>
@@ -397,7 +403,7 @@
                     .map(({ value }) => value);
 
                 let start = 0;
-                let total = 10;
+                let total = isMobile() ? 5 : 10;
 
                 let output = "";
                 let opener =
@@ -421,15 +427,20 @@
             }
 
             function viewSwitcher(single) {
-                return (
-                    'See <a href="?s=' + (single ? '0">All' : '1">One') + "</a>"
-                );
+                return isMobile()
+                    ? ""
+                    : ' &#9679; See <a href="?s=' +
+                          (single ? '0">All' : '1">One') +
+                          "</a>";
             }
             function aboutSwitch(on) {
                 document.querySelector("#about").style.visibility = on
                     ? "visible"
                     : "hidden";
                 return;
+            }
+            function isMobile() {
+                return window.matchMedia("(max-width: 768px)").matches;
             }
         </script>
     </head>
@@ -438,14 +449,13 @@
             <h1><a href="/">Jenny Holzer: Truisms</a></h1>
             <div class="nav">
                 <a href="#" onclick="aboutSwitch(true);">What is this?</a>
-                &#9679;
                 <script>
                     document.write(viewSwitcher(single));
                 </script>
             </div>
         </header>
         <main id="main">
-            <div class="about" id="about">
+            <div class="about" id="about" onclick="aboutSwitch(false);">
                 <h2>What is this?</h2>
                 <p>
                     A mini interactive tribute to
@@ -478,7 +488,11 @@
                     >, and many Stack Overflow posts, MDN, and W3 docs. No
                     frameworks, builds, AI, or best practices involved.
                 </p>
-                <div><a href="#" onclick="aboutSwitch(false);">Close</a></div>
+                <div>
+                    <a href="#" onclick="aboutSwitch(false);"
+                        >Tap Anywhere to Close</a
+                    >
+                </div>
             </div>
             <script>
                 document.write(truismScroller(single));
